@@ -19,16 +19,23 @@
 <body>
     <h1>MPSS v0.1</h1>
     <svg></svg>
+    <form>
+
+    </form>
 </body>
 
 <script>
-    console.log(d3.version);
+    const url = "https://docs.google.com/spreadsheets/d/14wAHbXFQFDUu1SfdXSt_vXR8tRbzqg5Ns-X06epTTI8/gviz/tq?tqx=out:csv&sheet=data"
 
-    d3.csv("data.csv").then(suits => {
-        console.log("data: ", suits);
+    fetch(url).then(response => response.text()).then(text => {
+        const csv = d3.csvParse(text);
+        console.log("OH MY CSV: ", csv);
+        renderGraph(csv);
+    })
 
-        const width = 928;
-        const height = 600;
+    function renderGraph(suits) {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
         const types = Array.from(new Set(suits.map(d => d.type)));
         const nodes = Array.from(new Set(suits.flatMap(l => [l.source, l.target])), id => ({id}));
         const links = suits.map(d => Object.create(d))
@@ -100,7 +107,7 @@
         });
 
         Object.assign(svg.node(), {scales: {color}});
-    })
+    }
 
     function drag(simulation) {
 
