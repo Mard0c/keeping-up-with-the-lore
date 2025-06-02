@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-    <h1>MPSS v1</h1>
+    <h1>MPSS</h1>
     <svg id="graph"></svg>
     <div id="legend"></div>
     <form>
@@ -49,7 +49,7 @@
         const nodes = Array.from(new Set(csv.flatMap(l => [l.source, l.target])), id => ({id}));
         const links = csv.map(d => Object.create(d))
 
-        const color = d3.scaleOrdinal(types, ["#7D2E68", "#EFA8B8", "#251351", "#040926"]);
+        const color = d3.scaleOrdinal(types, d3.schemeSet1);
 
         renderLegend(types, color);
 
